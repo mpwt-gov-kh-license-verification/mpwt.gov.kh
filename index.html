@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Information</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+        
+        /* Header Styles */
+        .main-header {
+            background-color: #27548a;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin-right: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: transparent;
+        }
+        
+        .logo img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            border: none;
+        }
+        
+        .header-content {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .khmer-name {
+            font-size: 1.7rem;
+            margin-bottom: 5px;
+            font-weight: bold;
+            font-family: 'Khmer OS', 'Khmer OS System', 'Khmer UI', 'Arial Unicode MS', sans-serif;
+        }
+        
+        .english-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+        
+        /* Sub Header */
+        .sub-header {
+            background-color: #04251f;
+            color: white;
+            padding: 12px 20px;
+            text-align: left;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+        
+        /* Content Area */
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        
+        /* Language Switcher */
+        .language-switcher {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0 15px 0;
+            gap: 20px;
+        }
+        
+        .language-btn {
+            padding: 10px 30px;
+            border: 1px solid #ddd;
+            background-color: white;
+            color: #333;
+            cursor: pointer;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            min-width: 120px;
+            order: 1;
+        }
+        
+        .language-btn.active {
+            background-color: #1a3e8c;
+            color: white;
+            border-color: #1a3e8c;
+        }
+        
+        /* License Holder Section */
+        .license-holder {
+            margin: 15px 0;
+            text-align: center;
+        }
+        
+        .license-title {
+            font-size: 1.5rem;
+            color: #1a3e8c;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        /* License Table */
+        .license-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background-color: white;
+            border: 2px solid #1a3e8c;
+        }
+        
+        .license-table tr {
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .license-table th, 
+        .license-table td {
+            padding: 12px 15px;
+            text-align: left;
+            vertical-align: top;
+        }
+        
+        .license-table th {
+            font-weight: bold;
+            width: 40%;
+            border-right: 1px solid #ddd;
+            white-space: nowrap;
+        }
+        
+        .valid-status {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        
+        /* Language Toggle Classes */
+        .khmer-text {
+            display: none;
+        }
+        
+        .language-en .english-text {
+            display: block;
+        }
+        
+        .language-en .khmer-text {
+            display: none;
+        }
+        
+        .language-kh .english-text {
+            display: none;
+        }
+        
+        .language-kh .khmer-text {
+            display: block;
+        }
+        
+        /* Button order for language */
+        .language-en .language-btn:nth-child(1) { order: 2; }
+        .language-en .language-btn:nth-child(2) { order: 1; }
+        
+        .language-kh .language-btn:nth-child(1) { order: 2; }
+        .language-kh .language-btn:nth-child(2) { order: 1; }
+        
+        /* Address line break */
+        #address {
+            white-space: pre-line;
+            word-break: break-word;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-header {
+                padding: 10px 15px;
+                flex-direction: row;
+                text-align: left;
+            }
+            
+            .logo {
+                width: 70px;
+                height: 70px;
+                margin-right: 15px;
+            }
+            
+            .khmer-name {
+                font-size: 1.3rem;
+            }
+            
+            .english-name {
+                font-size: 1.2rem;
+            }
+            
+            .sub-header {
+                font-size: 1.1rem;
+                padding: 10px 15px;
+                text-align: left;
+            }
+            
+            .license-title {
+                font-size: 1.3rem;
+            }
+            
+            .license-table th, 
+            .license-table td {
+                padding: 8px 12px;
+                font-size: 0.9rem;
+                white-space: nowrap;
+            }
+            
+            .language-btn {
+                padding: 8px 20px;
+                min-width: 100px;
+            }
+            
+            .license-table th,
+            .license-table td {
+                display: table-cell;
+                width: auto;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .main-header {
+                padding: 8px 10px;
+                flex-direction: row;
+                text-align: left;
+            }
+            
+            .logo {
+                width: 60px;
+                height: 60px;
+                margin-right: 10px;
+                margin-bottom: 0;
+            }
+            
+            .khmer-name {
+                font-size: 1.1rem;
+            }
+            
+            .english-name {
+                font-size: 0.9rem;
+            }
+            
+            .sub-header {
+                font-size: 1rem;
+                padding: 8px 10px;
+                text-align: left;
+            }
+            
+            .license-title {
+                font-size: 1.2rem;
+            }
+            
+            .language-btn {
+                padding: 6px 20px;
+                font-size: 0.9rem;
+                min-width: 170px;
+            }
+            
+            .license-table th, 
+            .license-table td {
+                padding: 6px 8px;
+                font-size: 0.8rem;
+                display: table-cell;
+                width: auto;
+                text-align: left;
+                border-right: 1px solid #ddd;
+            }
+            
+            .license-table th {
+                background-color: transparent;
+            }
+            
+            .license-table tr {
+                border-bottom: 1px solid #ddd;
+            }
+        }
+    </style>
+</head>
+<body class="language-en">
+    <!-- Main Header -->
+    <header class="main-header" onclick="redirectToMPWT()">
+        <div class="logo">
+             <img src="https://i.postimg.cc/MKbJjTnM/logoimage.png" alt="Ministry Logo">
+        </div>
+        <div class="header-content">
+            <div class="khmer-name">ក្រសួងសាធារណការ និងដឹកជញ្ជូន</div>
+            <div class="english-name">Ministry of Public Works and Transport</div>
+        </div>
+    </header>
+    
+    <!-- Sub Header -->
+    <div class="sub-header">ព័ត៌មានបណ្ណបើកបរយានយន្ត</div>
+    
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Language Switcher -->
+        <div class="language-switcher">
+            <button class="language-btn active" onclick="switchLanguage('en')">English</button>
+            <button class="language-btn" onclick="switchLanguage('kh')">ភាសាខ្មែរ</button>
+        </div>
+        
+        <!-- License Holder Section -->
+        <div class="license-holder">
+            <h2 class="license-title english-text" id="driver-name-en">KIM TAE SUNG</h2>
+            <h2 class="license-title khmer-text" id="driver-name-kh">គីម តាំងស៊ុង</h2>
+        </div>
+        
+       <!-- License Table -->
+       <table class="license-table">
+        <tr>
+            <th class="english-text">Driver's License</th>
+            <th class="khmer-text">ប័ណ្ណបើកបរ</th>
+            <td class="valid-status">Valid</td>
+        </tr>
+        <tr>
+            <th class="english-text">Scope</th>
+            <th class="khmer-text">វិសាលភាព</th>
+            <td>Official License</td>
+        </tr>
+        <tr>
+            <th class="english-text">Point</th>
+            <th class="khmer-text">ពិន្ទុ</th>
+            <td>12/12</td>
+        </tr>
+        <tr>
+            <th class="english-text">First Issue Date</th>
+            <th class="khmer-text">កាលបរិច្ឆេទចេញដំបូង</th>
+            <td>07-04-2025</td>
+        </tr>
+        <tr>
+            <th class="english-text">Issue Date</th>
+            <th class="khmer-text">កាលបរិច្ឆេទចេញ</th>
+            <td>07-04-2025</td>
+        </tr>
+        <tr>
+            <th class="english-text">Expiry Date</th>
+            <th class="khmer-text">កាលបរិច្ឆេទផុតកំណត់</th>
+            <td>07-04-2026</td>
+        </tr>
+        <tr>
+            <th class="english-text">Card No</th>
+            <th class="khmer-text">លេខកាត</th>
+            <td>B.PP.10007467</td>
+        </tr>
+        <tr>
+            <th class="english-text">Citizen ID</th>
+            <th class="khmer-text">អត្តសញ្ញាណប័ណ្ណ</th>
+            <td>M23243316</td>
+        </tr>
+        <tr>
+            <th class="english-text">Category</th>
+            <th class="khmer-text">ប្រភេទ</th>
+            <td>B</td>
+        </tr>
+        <tr>
+            <th class="english-text">Special Condition</th>
+            <th class="khmer-text">លក្ខខណ្ឌពិសេស</th>
+            <td>AUTO</td>
+        </tr>
+        <tr>
+            <th class="english-text">Gender</th>
+            <th class="khmer-text">ភេទ</th>
+            <td>Male</td>
+        </tr>
+        <tr>
+            <th class="english-text">Nationality</th>
+            <th class="khmer-text">សញ្ជាតិ</th>
+            <td>KOREA</td>
+        </tr>
+            <tr>
+                <th class="english-text">Address</th>
+                <th class="khmer-text">អាសយដ្ឋាន</th>
+                <td id="address">Ta Ngov Nirouth Chbar Ampov<br>Phnom Penh</td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        function switchLanguage(lang) {
+            document.body.className = 'language-' + lang;
+            
+            const buttons = document.querySelectorAll('.language-btn');
+            buttons.forEach(btn => {
+                if (btn.textContent === (lang === 'en' ? 'English' : 'ភាសាខ្មែរ')) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+        
+        function redirectToMPWT() {
+            window.location.href = "https://mpwt.gov.kh/";
+        }
+
+        // Disable right click
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        // Load data when page loads
+        window.addEventListener('DOMContentLoaded', function() {
+            // Set the Khmer name if needed
+            document.getElementById('driver-name-kh').textContent = "ដួន និមល";
+        });
+    </script>
+</body>
+</html>
